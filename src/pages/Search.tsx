@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import MainLayout from "@/components/MainLayout";
@@ -15,7 +14,17 @@ import {
   CardTitle 
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { 
+  BarChart,
+  Bar, 
+  LineChart,
+  Line,
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer 
+} from "recharts";
 import { Button } from "@/components/ui/button";
 import { 
   Search as SearchIcon, 
@@ -65,12 +74,10 @@ const Search = () => {
       const data = await processNaturalLanguageQuery(searchQuery);
       setResults(data);
       
-      // Update search history
       const newHistory = [searchQuery, ...searchHistory.filter(q => q !== searchQuery)].slice(0, 5);
       setSearchHistory(newHistory);
       localStorage.setItem('searchHistory', JSON.stringify(newHistory));
       
-      // Update URL
       setSearchParams({ q: searchQuery });
     } catch (error) {
       console.error('Error processing search query:', error);
@@ -256,7 +263,7 @@ const Search = () => {
                   <div className="h-72">
                     <h4 className="text-sm font-semibold mb-2">Today's Performance by Hour</h4>
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart
+                      <BarChart
                         data={results.data.metricsByHour}
                         margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
                       >
@@ -276,11 +283,10 @@ const Search = () => {
                           labelFormatter={(hour) => `${hour}:00`}
                         />
                         <Bar
-                          type="monotone"
                           dataKey="score"
                           fill="hsl(var(--primary))"
                         />
-                      </LineChart>
+                      </BarChart>
                     </ResponsiveContainer>
                   </div>
                 </div>
@@ -442,6 +448,63 @@ const Search = () => {
                     <p className="text-sm text-muted-foreground mt-2">Try using one of the suggested queries below</p>
                   </div>
                 )}
+              </CardContent>
+            </Card>
+          </div>
+        );
+        
+      case 'salesAnalysis':
+        return (
+          <div className="space-y-6">
+            <Card className="glass-card">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5 text-primary" />
+                  <CardTitle>Sales Analysis</CardTitle>
+                </div>
+                <CardDescription>{results.explanation}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Key Findings</h3>
+                    <div className="space-y-4 p-4 bg-primary/5 rounded-lg">
+                      {results.insights && results.insights.map((insight: string, i: number) => (
+                        <p key={i} className="text-sm">{insight}</p>
+                      ))}
+                      
+                      {!results.insights && (
+                        <p className="text-sm">Based on our analysis, sales performance is affected by several factors including pricing, customer preferences, and market trends.</p>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {results.data && results.data.length > 0 && (
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Related Items</h3>
+                      <div className="space-y-4">
+                        {results.data.map((item: any) => (
+                          <div key={item.id} className="flex items-center p-3 border rounded-lg hover:bg-accent cursor-pointer" onClick={() => navigate(`/menu/${item.id}`)}>
+                            <div className="mr-3">
+                              <p className="font-medium">{item.name}</p>
+                              <p className="text-sm text-muted-foreground">Sales: {item.sales} | Rating: {item.rating}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                  <h3 className="text-lg font-semibold mb-2">Recommendations</h3>
+                  <ul className="space-y-2 list-disc pl-5 text-sm">
+                    <li>Review pricing strategy for underperforming items</li>
+                    <li>Consider promotional campaigns for items with good margins but low sales</li>
+                    <li>Analyze customer feedback for improvement opportunities</li>
+                    <li>Evaluate menu placement and presentation of low-performing items</li>
+                  </ul>
+                </div>
               </CardContent>
             </Card>
           </div>

@@ -74,6 +74,14 @@ const Inventory = () => {
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
 
+  // Fixed the toFixed error by adding type checking
+  const formatValue = (value: any) => {
+    if (typeof value === 'number') {
+      return `$${value.toFixed(2)}`;
+    }
+    return `$${value}`;
+  };
+
   if (loading) {
     return (
       <MainLayout>
@@ -200,7 +208,7 @@ const Inventory = () => {
                         <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                         <XAxis dataKey="name" />
                         <YAxis />
-                        <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, 'Value']} />
+                        <Tooltip formatter={(value) => [formatValue(value), 'Value']} />
                         <Bar dataKey="value" fill="hsl(var(--primary))">
                           {categoryData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

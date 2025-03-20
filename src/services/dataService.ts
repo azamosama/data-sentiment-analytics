@@ -565,12 +565,58 @@ export const getInventoryStatus = (item: InventoryItem): 'urgent' | 'warning' | 
   }
 };
 
-// Process natural language queries
+// Enhance natural language processing for more complex queries
 export const processNaturalLanguageQuery = (query: string): Promise<any> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      // Simple pattern matching for common queries
-      if (query.toLowerCase().includes("lowest performing")) {
+      const normalizedQuery = query.toLowerCase();
+      
+      // Sales analysis related queries
+      if (normalizedQuery.includes("sales") && (normalizedQuery.includes("low") || normalizedQuery.includes("poor") || normalizedQuery.includes("why"))) {
+        const sortedItems = [...menuItems].sort((a, b) => a.sales - b.sales);
+        const lowestPerforming = sortedItems.slice(0, 3);
+        
+        // Calculate average sales
+        const avgSales = menuItems.reduce((sum, item) => sum + item.sales, 0) / menuItems.length;
+        
+        // Calculate percentage below average for lowest items
+        const percentBelowAvg = ((avgSales - lowestPerforming[0].sales) / avgSales * 100).toFixed(1);
+        
+        resolve({
+          type: "salesAnalysis",
+          data: lowestPerforming,
+          explanation: "Analysis of underperforming menu items",
+          insights: [
+            `Sales are below average in several categories, with the worst performer (${lowestPerforming[0].name}) being ${percentBelowAvg}% below the average.`,
+            `${lowestPerforming[0].category} items generally have lower performance compared to other categories.`,
+            `Customer sentiment analysis suggests pricing and portion size concerns for these items.`
+          ]
+        });
+      }
+      // Critical inventory queries
+      else if ((normalizedQuery.includes("inventory") || normalizedQuery.includes("stock")) && 
+               (normalizedQuery.includes("critical") || normalizedQuery.includes("low") || normalizedQuery.includes("urgent"))) {
+        const urgentItems = inventoryItems.filter(item => getInventoryStatus(item) === 'urgent');
+        
+        if (normalizedQuery.includes("name") || normalizedQuery.includes("what") || normalizedQuery.includes("which")) {
+          // User wants the names specifically
+          const itemNames = urgentItems.map(item => item.name);
+          resolve({
+            type: "inventoryStatus",
+            data: urgentItems,
+            explanation: `The following items need urgent attention: ${itemNames.join(", ")}`,
+            criticalNames: itemNames
+          });
+        } else {
+          resolve({
+            type: "inventoryStatus",
+            data: urgentItems,
+            explanation: "These inventory items need urgent attention as they are below critical levels."
+          });
+        }
+      }
+      // Lowest performing menu queries
+      else if (normalizedQuery.includes("lowest performing")) {
         const sortedItems = [...menuItems].sort((a, b) => a.sales - b.sales);
         resolve({
           type: "menuPerformance",
@@ -578,7 +624,8 @@ export const processNaturalLanguageQuery = (query: string): Promise<any> => {
           explanation: "These are the lowest performing menu items based on sales volume."
         });
       } 
-      else if (query.toLowerCase().includes("best performing")) {
+      // Best performing menu queries
+      else if (normalizedQuery.includes("best performing")) {
         const sortedItems = [...menuItems].sort((a, b) => b.sales - a.sales);
         resolve({
           type: "menuPerformance",
@@ -586,7 +633,8 @@ export const processNaturalLanguageQuery = (query: string): Promise<any> => {
           explanation: "These are the best performing menu items based on sales volume."
         });
       }
-      else if (query.toLowerCase().includes("gen z") || query.toLowerCase().includes("young")) {
+      // Gen Z preferences
+      else if (normalizedQuery.includes("gen z") || normalizedQuery.includes("young")) {
         const sortedItems = [...menuItems].sort((a, b) => b.sentiment.byAgeGroup['Gen Z'] - a.sentiment.byAgeGroup['Gen Z']);
         resolve({
           type: "demographicPreference",
@@ -595,22 +643,16 @@ export const processNaturalLanguageQuery = (query: string): Promise<any> => {
           explanation: "These menu items are most popular with Gen Z customers based on sentiment analysis."
         });
       }
-      else if (query.toLowerCase().includes("inventory") && (query.toLowerCase().includes("urgent") || query.toLowerCase().includes("low"))) {
-        const urgentItems = inventoryItems.filter(item => getInventoryStatus(item) === 'urgent');
-        resolve({
-          type: "inventoryStatus",
-          data: urgentItems,
-          explanation: "These inventory items need urgent attention as they are below critical levels."
-        });
-      }
-      else if (query.toLowerCase().includes("customer service") || query.toLowerCase().includes("satisfaction")) {
+      // Customer service queries
+      else if (normalizedQuery.includes("customer service") || normalizedQuery.includes("satisfaction")) {
         resolve({
           type: "customerService",
           data: customerServiceData,
           explanation: "Here's the latest customer service performance data."
         });
       }
-      else if (query.toLowerCase().includes("employee") || query.toLowerCase().includes("productivity")) {
+      // Employee productivity queries
+      else if (normalizedQuery.includes("employee") || normalizedQuery.includes("productivity")) {
         resolve({
           type: "employeeProductivity",
           data: employeeProductivityData,
@@ -621,12 +663,12 @@ export const processNaturalLanguageQuery = (query: string): Promise<any> => {
         // Default search behavior for unrecognized queries
         const results = {
           menuItems: menuItems.filter(item => 
-            item.name.toLowerCase().includes(query.toLowerCase()) || 
-            item.category.toLowerCase().includes(query.toLowerCase())
+            item.name.toLowerCase().includes(normalizedQuery) || 
+            item.category.toLowerCase().includes(normalizedQuery)
           ),
           inventory: inventoryItems.filter(item => 
-            item.name.toLowerCase().includes(query.toLowerCase()) || 
-            item.category.toLowerCase().includes(query.toLowerCase())
+            item.name.toLowerCase().includes(normalizedQuery) || 
+            item.category.toLowerCase().includes(normalizedQuery)
           ),
         };
         resolve({
