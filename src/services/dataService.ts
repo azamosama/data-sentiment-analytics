@@ -1,0 +1,640 @@
+
+export interface MenuItem {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  cost: number;
+  sales: number;
+  rating: number;
+  sentiment: {
+    overall: number;
+    byAgeGroup: {
+      'Gen Z': number;
+      'Millennials': number;
+      'Gen X': number;
+      'Boomers': number;
+    };
+    keywords: string[];
+  };
+  image: string;
+}
+
+export interface CustomerServiceData {
+  score: number;
+  previousScore: number;
+  improvementAreas: { area: string; score: number }[];
+  topPerformers: { name: string; score: number }[];
+  metricsByHour: { hour: number; score: number }[];
+}
+
+export interface EmployeeProductivityData {
+  overall: number;
+  previousPeriod: number;
+  byDepartment: { department: string; score: number; change: number }[];
+  topEmployees: { name: string; department: string; score: number }[];
+}
+
+export interface InventoryItem {
+  id: number;
+  name: string;
+  category: string;
+  currentStock: number;
+  minRequired: number;
+  optimalStock: number;
+  usageRate: number;
+  supplierLeadTime: number;
+  lastOrdered: string;
+  price: number;
+}
+
+export interface KpiData {
+  revenue: {
+    value: number;
+    change: number;
+  };
+  customerSatisfaction: {
+    value: number;
+    change: number;
+  };
+  employeeProductivity: {
+    value: number;
+    change: number;
+  };
+  inventoryHealth: {
+    value: number;
+    change: number;
+  };
+}
+
+// Mock data for menu items
+const menuItems: MenuItem[] = [
+  {
+    id: 1,
+    name: "Classic Burger",
+    category: "Burgers",
+    price: 9.99,
+    cost: 3.50,
+    sales: 430,
+    rating: 4.2,
+    sentiment: {
+      overall: 0.76,
+      byAgeGroup: {
+        'Gen Z': 0.65,
+        'Millennials': 0.82,
+        'Gen X': 0.78,
+        'Boomers': 0.75,
+      },
+      keywords: ["juicy", "filling", "overpriced", "consistent"]
+    },
+    image: "/placeholder.svg"
+  },
+  {
+    id: 2,
+    name: "Chicken Sandwich",
+    category: "Sandwiches",
+    price: 8.99,
+    cost: 3.20,
+    sales: 310,
+    rating: 3.8,
+    sentiment: {
+      overall: 0.62,
+      byAgeGroup: {
+        'Gen Z': 0.55,
+        'Millennials': 0.63,
+        'Gen X': 0.67,
+        'Boomers': 0.70,
+      },
+      keywords: ["dry", "plain", "healthy", "quick"]
+    },
+    image: "/placeholder.svg"
+  },
+  {
+    id: 3,
+    name: "Avocado Toast",
+    category: "Breakfast",
+    price: 7.99,
+    cost: 2.80,
+    sales: 380,
+    rating: 4.5,
+    sentiment: {
+      overall: 0.88,
+      byAgeGroup: {
+        'Gen Z': 0.92,
+        'Millennials': 0.90,
+        'Gen X': 0.75,
+        'Boomers': 0.65,
+      },
+      keywords: ["fresh", "healthy", "expensive", "trendy"]
+    },
+    image: "/placeholder.svg"
+  },
+  {
+    id: 4,
+    name: "Caesar Salad",
+    category: "Salads",
+    price: 8.49,
+    cost: 2.50,
+    sales: 250,
+    rating: 4.0,
+    sentiment: {
+      overall: 0.71,
+      byAgeGroup: {
+        'Gen Z': 0.60,
+        'Millennials': 0.75,
+        'Gen X': 0.80,
+        'Boomers': 0.78,
+      },
+      keywords: ["fresh", "light", "more dressing", "crisp"]
+    },
+    image: "/placeholder.svg"
+  },
+  {
+    id: 5,
+    name: "Spicy Ramen",
+    category: "Asian",
+    price: 11.99,
+    cost: 4.20,
+    sales: 420,
+    rating: 4.7,
+    sentiment: {
+      overall: 0.89,
+      byAgeGroup: {
+        'Gen Z': 0.95,
+        'Millennials': 0.88,
+        'Gen X': 0.75,
+        'Boomers': 0.68,
+      },
+      keywords: ["authentic", "spicy", "flavorful", "filling"]
+    },
+    image: "/placeholder.svg"
+  },
+  {
+    id: 6,
+    name: "Margherita Pizza",
+    category: "Pizza",
+    price: 12.99,
+    cost: 4.50,
+    sales: 390,
+    rating: 4.4,
+    sentiment: {
+      overall: 0.82,
+      byAgeGroup: {
+        'Gen Z': 0.80,
+        'Millennials': 0.85,
+        'Gen X': 0.82,
+        'Boomers': 0.79,
+      },
+      keywords: ["classic", "cheesy", "simple", "satisfying"]
+    },
+    image: "/placeholder.svg"
+  },
+  {
+    id: 7,
+    name: "Fish Tacos",
+    category: "Mexican",
+    price: 10.49,
+    cost: 3.80,
+    sales: 280,
+    rating: 4.3,
+    sentiment: {
+      overall: 0.78,
+      byAgeGroup: {
+        'Gen Z': 0.77,
+        'Millennials': 0.82,
+        'Gen X': 0.75,
+        'Boomers': 0.72,
+      },
+      keywords: ["fresh", "zesty", "light", "flavorful"]
+    },
+    image: "/placeholder.svg"
+  },
+  {
+    id: 8,
+    name: "Chocolate Cake",
+    category: "Desserts",
+    price: 6.99,
+    cost: 2.20,
+    sales: 200,
+    rating: 4.6,
+    sentiment: {
+      overall: 0.86,
+      byAgeGroup: {
+        'Gen Z': 0.90,
+        'Millennials': 0.88,
+        'Gen X': 0.85,
+        'Boomers': 0.82,
+      },
+      keywords: ["rich", "decadent", "moist", "sweet"]
+    },
+    image: "/placeholder.svg"
+  },
+  {
+    id: 9,
+    name: "Veggie Bowl",
+    category: "Healthy",
+    price: 9.49,
+    cost: 3.30,
+    sales: 220,
+    rating: 4.1,
+    sentiment: {
+      overall: 0.74,
+      byAgeGroup: {
+        'Gen Z': 0.78,
+        'Millennials': 0.80,
+        'Gen X': 0.70,
+        'Boomers': 0.62,
+      },
+      keywords: ["healthy", "fresh", "bland", "overpriced"]
+    },
+    image: "/placeholder.svg"
+  },
+  {
+    id: 10,
+    name: "Steak Frites",
+    category: "Mains",
+    price: 18.99,
+    cost: 8.50,
+    sales: 150,
+    rating: 4.5,
+    sentiment: {
+      overall: 0.83,
+      byAgeGroup: {
+        'Gen Z': 0.70,
+        'Millennials': 0.82,
+        'Gen X': 0.90,
+        'Boomers': 0.88,
+      },
+      keywords: ["premium", "tender", "expensive", "satisfying"]
+    },
+    image: "/placeholder.svg"
+  }
+];
+
+// Mock data for customer service
+const customerServiceData: CustomerServiceData = {
+  score: 90,
+  previousScore: 87,
+  improvementAreas: [
+    { area: "Wait Time", score: 78 },
+    { area: "Friendliness", score: 92 },
+    { area: "Issue Resolution", score: 85 },
+    { area: "Follow-up", score: 81 }
+  ],
+  topPerformers: [
+    { name: "Sarah Johnson", score: 98 },
+    { name: "Michael Chen", score: 96 },
+    { name: "David Garcia", score: 95 }
+  ],
+  metricsByHour: [
+    { hour: 8, score: 92 },
+    { hour: 9, score: 90 },
+    { hour: 10, score: 93 },
+    { hour: 11, score: 91 },
+    { hour: 12, score: 86 },
+    { hour: 13, score: 84 },
+    { hour: 14, score: 89 },
+    { hour: 15, score: 92 },
+    { hour: 16, score: 94 },
+    { hour: 17, score: 95 },
+    { hour: 18, score: 93 },
+    { hour: 19, score: 91 },
+    { hour: 20, score: 90 }
+  ]
+};
+
+// Mock data for employee productivity
+const employeeProductivityData: EmployeeProductivityData = {
+  overall: 83,
+  previousPeriod: 81,
+  byDepartment: [
+    { department: "Kitchen", score: 86, change: 2 },
+    { department: "Service", score: 84, change: 3 },
+    { department: "Management", score: 90, change: 1 },
+    { department: "Cleaning", score: 82, change: -1 }
+  ],
+  topEmployees: [
+    { name: "Jessica Wu", department: "Kitchen", score: 97 },
+    { name: "Robert Smith", department: "Management", score: 96 },
+    { name: "Elena Rodriguez", department: "Service", score: 95 }
+  ]
+};
+
+// Mock data for inventory items
+const inventoryItems: InventoryItem[] = [
+  {
+    id: 1,
+    name: "Ground Beef",
+    category: "Meat",
+    currentStock: 10,
+    minRequired: 15,
+    optimalStock: 30,
+    usageRate: 5,
+    supplierLeadTime: 2,
+    lastOrdered: "2023-05-15",
+    price: 4.99
+  },
+  {
+    id: 2,
+    name: "Chicken Breast",
+    category: "Meat",
+    currentStock: 8,
+    minRequired: 12,
+    optimalStock: 25,
+    usageRate: 4,
+    supplierLeadTime: 2,
+    lastOrdered: "2023-05-16",
+    price: 5.99
+  },
+  {
+    id: 3,
+    name: "Lettuce",
+    category: "Produce",
+    currentStock: 5,
+    minRequired: 8,
+    optimalStock: 15,
+    usageRate: 3,
+    supplierLeadTime: 1,
+    lastOrdered: "2023-05-17",
+    price: 1.99
+  },
+  {
+    id: 4,
+    name: "Tomatoes",
+    category: "Produce",
+    currentStock: 20,
+    minRequired: 10,
+    optimalStock: 20,
+    usageRate: 3,
+    supplierLeadTime: 1,
+    lastOrdered: "2023-05-16",
+    price: 2.49
+  },
+  {
+    id: 5,
+    name: "Burger Buns",
+    category: "Bakery",
+    currentStock: 25,
+    minRequired: 20,
+    optimalStock: 40,
+    usageRate: 8,
+    supplierLeadTime: 1,
+    lastOrdered: "2023-05-15",
+    price: 3.99
+  },
+  {
+    id: 6,
+    name: "Cheese Slices",
+    category: "Dairy",
+    currentStock: 35,
+    minRequired: 30,
+    optimalStock: 60,
+    usageRate: 10,
+    supplierLeadTime: 2,
+    lastOrdered: "2023-05-14",
+    price: 4.99
+  },
+  {
+    id: 7,
+    name: "Ketchup",
+    category: "Condiments",
+    currentStock: 8,
+    minRequired: 5,
+    optimalStock: 12,
+    usageRate: 1,
+    supplierLeadTime: 3,
+    lastOrdered: "2023-05-10",
+    price: 2.99
+  },
+  {
+    id: 8,
+    name: "French Fries",
+    category: "Frozen",
+    currentStock: 18,
+    minRequired: 15,
+    optimalStock: 30,
+    usageRate: 6,
+    supplierLeadTime: 2,
+    lastOrdered: "2023-05-12",
+    price: 6.99
+  },
+  {
+    id: 9,
+    name: "Flour",
+    category: "Baking",
+    currentStock: 25,
+    minRequired: 15,
+    optimalStock: 30,
+    usageRate: 3,
+    supplierLeadTime: 3,
+    lastOrdered: "2023-05-08",
+    price: 2.49
+  },
+  {
+    id: 10,
+    name: "Napkins",
+    category: "Supplies",
+    currentStock: 150,
+    minRequired: 100,
+    optimalStock: 200,
+    usageRate: 20,
+    supplierLeadTime: 4,
+    lastOrdered: "2023-05-05",
+    price: 1.99
+  }
+];
+
+// Mock data for KPIs
+const kpiData: KpiData = {
+  revenue: {
+    value: 24850,
+    change: 3.2
+  },
+  customerSatisfaction: {
+    value: 90,
+    change: 2.5
+  },
+  employeeProductivity: {
+    value: 83,
+    change: 1.5
+  },
+  inventoryHealth: {
+    value: 72,
+    change: -1.8
+  }
+};
+
+// Service functions
+export const getMenuItems = (): Promise<MenuItem[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(menuItems), 500);
+  });
+};
+
+export const getCustomerServiceData = (): Promise<CustomerServiceData> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(customerServiceData), 500);
+  });
+};
+
+export const getEmployeeProductivityData = (): Promise<EmployeeProductivityData> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(employeeProductivityData), 500);
+  });
+};
+
+export const getInventoryItems = (): Promise<InventoryItem[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(inventoryItems), 500);
+  });
+};
+
+export const getKpiData = (): Promise<KpiData> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(kpiData), 500);
+  });
+};
+
+export const searchData = (query: string): Promise<any> => {
+  return new Promise((resolve) => {
+    // Simple mock search function
+    setTimeout(() => {
+      const results = {
+        menuItems: menuItems.filter(item => 
+          item.name.toLowerCase().includes(query.toLowerCase()) || 
+          item.category.toLowerCase().includes(query.toLowerCase())
+        ),
+        inventory: inventoryItems.filter(item => 
+          item.name.toLowerCase().includes(query.toLowerCase()) || 
+          item.category.toLowerCase().includes(query.toLowerCase())
+        ),
+      };
+      resolve(results);
+    }, 700);
+  });
+};
+
+export const getSentimentAnalysis = (itemId: number): Promise<any> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const item = menuItems.find(i => i.id === itemId);
+      if (item) {
+        resolve({
+          item,
+          detailedAnalysis: {
+            strengths: [
+              "Popular among younger demographics",
+              "Consistent quality ratings",
+              "Good value perception"
+            ],
+            weaknesses: [
+              "Some concerns about portion size",
+              "Mixed reviews on pricing",
+              "Presentation could be improved"
+            ],
+            opportunities: [
+              "Menu pairing with complementary items",
+              "Special promotion for target demographics",
+              "Packaging improvements for takeout"
+            ],
+            recommendations: [
+              "Consider slight price adjustment",
+              "Review portion consistency",
+              "Update presentation for Instagram appeal"
+            ]
+          }
+        });
+      } else {
+        resolve(null);
+      }
+    }, 600);
+  });
+};
+
+// Helper function to determine inventory status
+export const getInventoryStatus = (item: InventoryItem): 'urgent' | 'warning' | 'normal' => {
+  // Days until stock runs out
+  const daysRemaining = item.currentStock / item.usageRate;
+  
+  if (daysRemaining <= item.supplierLeadTime) {
+    return 'urgent';
+  } else if (item.currentStock < item.minRequired) {
+    return 'warning';
+  } else {
+    return 'normal';
+  }
+};
+
+// Process natural language queries
+export const processNaturalLanguageQuery = (query: string): Promise<any> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // Simple pattern matching for common queries
+      if (query.toLowerCase().includes("lowest performing")) {
+        const sortedItems = [...menuItems].sort((a, b) => a.sales - b.sales);
+        resolve({
+          type: "menuPerformance",
+          data: sortedItems.slice(0, 3),
+          explanation: "These are the lowest performing menu items based on sales volume."
+        });
+      } 
+      else if (query.toLowerCase().includes("best performing")) {
+        const sortedItems = [...menuItems].sort((a, b) => b.sales - a.sales);
+        resolve({
+          type: "menuPerformance",
+          data: sortedItems.slice(0, 3),
+          explanation: "These are the best performing menu items based on sales volume."
+        });
+      }
+      else if (query.toLowerCase().includes("gen z") || query.toLowerCase().includes("young")) {
+        const sortedItems = [...menuItems].sort((a, b) => b.sentiment.byAgeGroup['Gen Z'] - a.sentiment.byAgeGroup['Gen Z']);
+        resolve({
+          type: "demographicPreference",
+          data: sortedItems.slice(0, 3),
+          demographic: "Gen Z",
+          explanation: "These menu items are most popular with Gen Z customers based on sentiment analysis."
+        });
+      }
+      else if (query.toLowerCase().includes("inventory") && (query.toLowerCase().includes("urgent") || query.toLowerCase().includes("low"))) {
+        const urgentItems = inventoryItems.filter(item => getInventoryStatus(item) === 'urgent');
+        resolve({
+          type: "inventoryStatus",
+          data: urgentItems,
+          explanation: "These inventory items need urgent attention as they are below critical levels."
+        });
+      }
+      else if (query.toLowerCase().includes("customer service") || query.toLowerCase().includes("satisfaction")) {
+        resolve({
+          type: "customerService",
+          data: customerServiceData,
+          explanation: "Here's the latest customer service performance data."
+        });
+      }
+      else if (query.toLowerCase().includes("employee") || query.toLowerCase().includes("productivity")) {
+        resolve({
+          type: "employeeProductivity",
+          data: employeeProductivityData,
+          explanation: "Here's the current employee productivity metrics."
+        });
+      }
+      else {
+        // Default search behavior for unrecognized queries
+        const results = {
+          menuItems: menuItems.filter(item => 
+            item.name.toLowerCase().includes(query.toLowerCase()) || 
+            item.category.toLowerCase().includes(query.toLowerCase())
+          ),
+          inventory: inventoryItems.filter(item => 
+            item.name.toLowerCase().includes(query.toLowerCase()) || 
+            item.category.toLowerCase().includes(query.toLowerCase())
+          ),
+        };
+        resolve({
+          type: "generalSearch",
+          data: results,
+          explanation: `Search results for "${query}"`
+        });
+      }
+    }, 800);
+  });
+};
