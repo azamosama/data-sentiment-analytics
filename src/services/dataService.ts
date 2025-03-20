@@ -1,4 +1,3 @@
-
 export interface MenuItem {
   id: number;
   name: string;
@@ -65,6 +64,14 @@ export interface KpiData {
     value: number;
     change: number;
   };
+}
+
+export interface Shipment {
+  id: string;
+  supplier: string;
+  items: { name: string; quantity: number }[];
+  estimatedArrival: string;
+  arrived: boolean;
 }
 
 // Mock data for menu items
@@ -464,6 +471,50 @@ const kpiData: KpiData = {
   }
 };
 
+// Mock data for shipments
+const shipments: Shipment[] = [
+  {
+    id: "SHP-001",
+    supplier: "Fresh Produce Co.",
+    items: [
+      { name: "Lettuce", quantity: 30 },
+      { name: "Tomatoes", quantity: 50 }
+    ],
+    estimatedArrival: "2023-05-20",
+    arrived: true
+  },
+  {
+    id: "SHP-002",
+    supplier: "Premium Meats",
+    items: [
+      { name: "Ground Beef", quantity: 40 },
+      { name: "Chicken Breast", quantity: 35 }
+    ],
+    estimatedArrival: "2023-05-23",
+    arrived: false
+  },
+  {
+    id: "SHP-003",
+    supplier: "Bakery Supplies",
+    items: [
+      { name: "Burger Buns", quantity: 100 },
+      { name: "Flour", quantity: 25 }
+    ],
+    estimatedArrival: "2023-05-18",
+    arrived: false
+  },
+  {
+    id: "SHP-004",
+    supplier: "Restaurant Essentials",
+    items: [
+      { name: "Napkins", quantity: 200 },
+      { name: "Condiment Packets", quantity: 500 }
+    ],
+    estimatedArrival: "2023-05-25",
+    arrived: false
+  }
+];
+
 // Service functions
 export const getMenuItems = (): Promise<MenuItem[]> => {
   return new Promise((resolve) => {
@@ -492,6 +543,12 @@ export const getInventoryItems = (): Promise<InventoryItem[]> => {
 export const getKpiData = (): Promise<KpiData> => {
   return new Promise((resolve) => {
     setTimeout(() => resolve(kpiData), 500);
+  });
+};
+
+export const getShipments = (): Promise<Shipment[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(shipments), 500);
   });
 };
 
