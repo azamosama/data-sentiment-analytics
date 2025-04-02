@@ -21,6 +21,15 @@ const MainLayout: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("chat");
   
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    // Use querySelector and check if element exists before accessing click
+    const element = document.querySelector(`[data-trigger="${value}"]`);
+    if (element instanceof HTMLElement) {
+      element.click();
+    }
+  };
+  
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
@@ -46,10 +55,7 @@ const MainLayout: React.FC = () => {
                   <Button
                     variant={activeTab === "chat" ? "default" : "ghost"}
                     className="justify-start"
-                    onClick={() => {
-                      setActiveTab("chat");
-                      document.querySelector('[data-trigger="chat"]')?.click();
-                    }}
+                    onClick={() => handleTabChange("chat")}
                   >
                     <MessageSquare className="mr-2 h-4 w-4" />
                     Chat
@@ -57,10 +63,7 @@ const MainLayout: React.FC = () => {
                   <Button
                     variant={activeTab === "lenders" ? "default" : "ghost"}
                     className="justify-start"
-                    onClick={() => {
-                      setActiveTab("lenders");
-                      document.querySelector('[data-trigger="lenders"]')?.click();
-                    }}
+                    onClick={() => handleTabChange("lenders")}
                   >
                     <User className="mr-2 h-4 w-4" />
                     Lenders
@@ -68,10 +71,7 @@ const MainLayout: React.FC = () => {
                   <Button
                     variant={activeTab === "rules" ? "default" : "ghost"}
                     className="justify-start"
-                    onClick={() => {
-                      setActiveTab("rules");
-                      document.querySelector('[data-trigger="rules"]')?.click();
-                    }}
+                    onClick={() => handleTabChange("rules")}
                   >
                     <Settings className="mr-2 h-4 w-4" />
                     Rules
@@ -96,30 +96,21 @@ const MainLayout: React.FC = () => {
             <nav className="hidden md:flex items-center gap-2">
               <Button
                 variant={activeTab === "chat" ? "default" : "ghost"}
-                onClick={() => {
-                  setActiveTab("chat");
-                  document.querySelector('[data-trigger="chat"]')?.click();
-                }}
+                onClick={() => handleTabChange("chat")}
               >
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Chat
               </Button>
               <Button
                 variant={activeTab === "lenders" ? "default" : "ghost"}
-                onClick={() => {
-                  setActiveTab("lenders");
-                  document.querySelector('[data-trigger="lenders"]')?.click();
-                }}
+                onClick={() => handleTabChange("lenders")}
               >
                 <User className="mr-2 h-4 w-4" />
                 Lenders
               </Button>
               <Button
                 variant={activeTab === "rules" ? "default" : "ghost"}
-                onClick={() => {
-                  setActiveTab("rules");
-                  document.querySelector('[data-trigger="rules"]')?.click();
-                }}
+                onClick={() => handleTabChange("rules")}
               >
                 <Settings className="mr-2 h-4 w-4" />
                 Rules

@@ -59,10 +59,12 @@ const formSchema = z.object({
   additionalNotes: z.string().optional(),
 });
 
+type FormValues = z.infer<typeof formSchema>;
+
 const DealForm: React.FC = () => {
   const { processDeal, processingDeal } = useBrokerBuddy();
   
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       businessName: "",
@@ -76,9 +78,21 @@ const DealForm: React.FC = () => {
     },
   });
   
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: FormValues) => {
     try {
-      await processDeal(values);
+      // Make sure all required properties are present before submission
+      const deal = {
+        businessName: values.businessName,
+        industry: values.industry,
+        revenue: values.revenue,
+        requestedAmount: values.requestedAmount,
+        timeInBusiness: values.timeInBusiness,
+        ficoScore: values.ficoScore,
+        numNSFs: values.numNSFs,
+        additionalNotes: values.additionalNotes || ""
+      };
+      
+      await processDeal(deal);
       toast.success("Deal submitted for analysis");
     } catch (error) {
       console.error(error);

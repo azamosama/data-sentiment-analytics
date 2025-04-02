@@ -89,7 +89,7 @@ const ChatInterface: React.FC = () => {
                     )}
                   </>
                 ) : (
-                  <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none">
+                  <ReactMarkdown>
                     {message.content}
                   </ReactMarkdown>
                 )}
