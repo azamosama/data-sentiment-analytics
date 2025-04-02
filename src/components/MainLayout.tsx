@@ -23,11 +23,6 @@ const MainLayout: React.FC = () => {
   
   const handleTabChange = (value: string) => {
     setActiveTab(value);
-    // Use querySelector and check if element exists before accessing click
-    const element = document.querySelector(`[data-trigger="${value}"]`);
-    if (element instanceof HTMLElement) {
-      element.click();
-    }
   };
   
   return (
@@ -135,11 +130,11 @@ const MainLayout: React.FC = () => {
       
       {/* Main Content */}
       <main className="flex-1 p-4 md:p-6">
-        <Tabs defaultValue="chat" className="w-full">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           <TabsList className="hidden">
-            <TabsTrigger value="chat" data-trigger="chat">Chat</TabsTrigger>
-            <TabsTrigger value="lenders" data-trigger="lenders">Lenders</TabsTrigger>
-            <TabsTrigger value="rules" data-trigger="rules">Rules</TabsTrigger>
+            <TabsTrigger value="chat">Chat</TabsTrigger>
+            <TabsTrigger value="lenders">Lenders</TabsTrigger>
+            <TabsTrigger value="rules">Rules</TabsTrigger>
           </TabsList>
           
           <TabsContent value="chat" className="space-y-4">
