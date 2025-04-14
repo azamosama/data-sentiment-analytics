@@ -29,25 +29,27 @@ const SearchBar = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`search-bar ${className}`}>
-      <Search className="w-5 h-5 text-muted-foreground" />
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder={placeholder}
-        className="flex-1 bg-transparent border-none outline-none placeholder:text-muted-foreground"
-        aria-label="Search"
-      />
-      {query && (
-        <button
-          type="button"
-          onClick={() => setQuery("")}
-          className="text-sm text-muted-foreground hover:text-foreground"
-        >
-          Clear
-        </button>
-      )}
+    <form onSubmit={handleSubmit} className={`relative ${className}`}>
+      <div className="flex items-center">
+        <Search className="w-4 h-4 text-muted-foreground absolute left-3" />
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={placeholder}
+          className="flex-1 pl-9 bg-transparent outline-none placeholder:text-muted-foreground w-full"
+          aria-label="Search"
+        />
+        {query && (
+          <button
+            type="button"
+            onClick={() => setQuery("")}
+            className="absolute right-3 text-xs text-muted-foreground hover:text-foreground"
+          >
+            Clear
+          </button>
+        )}
+      </div>
     </form>
   );
 };
