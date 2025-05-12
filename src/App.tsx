@@ -1,4 +1,4 @@
-import logo from @ "src/assets/logo.png";
+import logo from "./assets/logo.png"; 
 import { Toaster } from "@/components/ui/sonner";
 import { BrokerBuddyProvider } from "@/contexts/BrokerBuddyContext";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import Inventory from "@/pages/Inventory";
 import MenuItemDetail from "@/pages/MenuItemDetail";
 import Search from "@/pages/Search";
 import NotFound from "@/pages/NotFound";
+import Header from "@/components/ui/header";
 
 function App() {
   return (
@@ -31,12 +32,3 @@ function App() {
 }
 
 export default App;
-
-export default function Header() {
-  return (
-    <header className="flex items-center p-4 shadow-md">
-      <img src={logo} alt="Company Logo" className="h-10 w-auto" />
-      <h1 className="ml-4 text-xl font-semibold">Chick-In Waffle</h1>
-    </header>
-  );
-}
