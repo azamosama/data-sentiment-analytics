@@ -10,25 +10,28 @@ import MenuItemDetail from "@/pages/MenuItemDetail";
 import Search from "@/pages/Search";
 import NotFound from "@/pages/NotFound";
 import Header from "@/components/ui/header";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   return (
-    <BrowserRouter>
-      <BrokerBuddyProvider>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/menu" element={<MenuAnalytics />} />
-          <Route path="/menu/:id" element={<MenuItemDetail />} />
-          <Route path="/service" element={<CustomerService />} />
-          <Route path="/inventory" element={<Inventory />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
-        <Toaster position="top-right" />
-      </BrokerBuddyProvider>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <BrokerBuddyProvider>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/menu" element={<MenuAnalytics />} />
+            <Route path="/menu/:id" element={<MenuItemDetail />} />
+            <Route path="/service" element={<CustomerService />} />
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
+          </Routes>
+          <Toaster position="top-right" />
+        </BrokerBuddyProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
