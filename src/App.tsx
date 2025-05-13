@@ -1,4 +1,4 @@
-import logo from "@/assets/logo2.png";
+import logo from "@/assets/logo.png";
 import { Toaster } from "@/components/ui/sonner";
 import { BrokerBuddyProvider } from "@/contexts/BrokerBuddyContext";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";

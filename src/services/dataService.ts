@@ -331,8 +331,8 @@ const employeeProductivityData: EmployeeProductivityData = {
 const inventoryItems: InventoryItem[] = [
   {
     id: 1,
-    name: "Banging Beef",
-    category: "Shawarmas",
+    name: "Chicken Breast",
+    category: "Proteins",
     currentStock: 10,
     minRequired: 15,
     optimalStock: 30,
@@ -343,8 +343,8 @@ const inventoryItems: InventoryItem[] = [
   },
   {
     id: 2,
-    name: "Falafel",
-    category: "Shawarmas",
+    name: "Waffle Mix",
+    category: "Dry Goods",
     currentStock: 8,
     minRequired: 12,
     optimalStock: 25,
@@ -355,8 +355,8 @@ const inventoryItems: InventoryItem[] = [
   },
   {
     id: 3,
-    name: "Succulent Chicken",
-    category: "Shawarmas",
+    name: "Maple Syrup",
+    category: "Condiments",
     currentStock: 5,
     minRequired: 8,
     optimalStock: 15,
@@ -367,8 +367,8 @@ const inventoryItems: InventoryItem[] = [
   },
   {
     id: 4,
-    name: "Bulked Baba Ghanoush",
-    category: "Classics",
+    name: "French Fries",
+    category: "Frozen Foods",
     currentStock: 20,
     minRequired: 10,
     optimalStock: 20,
@@ -379,8 +379,8 @@ const inventoryItems: InventoryItem[] = [
   },
   {
     id: 5,
-    name: "Garlicky Chicken",
-    category: "Classics",
+    name: "Hot Sauce",
+    category: "Condiments",
     currentStock: 25,
     minRequired: 20,
     optimalStock: 40,
@@ -391,8 +391,8 @@ const inventoryItems: InventoryItem[] = [
   },
   {
     id: 6,
-    name: "Heaped Hummus",
-    category: "Classics",
+    name: "Cheese Blend",
+    category: "Dairy",
     currentStock: 35,
     minRequired: 30,
     optimalStock: 60,
@@ -403,8 +403,8 @@ const inventoryItems: InventoryItem[] = [
   },
   {
     id: 7,
-    name: "Grand Finale",
-    category: "Sweet & Savory",
+    name: "Brioche Buns",
+    category: "Bakery",
     currentStock: 8,
     minRequired: 5,
     optimalStock: 12,
@@ -415,8 +415,8 @@ const inventoryItems: InventoryItem[] = [
   },
   {
     id: 8,
-    name: "Assorted Baklava Tray",
-    category: "Sweet & Savory",
+    name: "Lettuce",
+    category: "Produce",
     currentStock: 18,
     minRequired: 15,
     optimalStock: 30,
@@ -427,8 +427,8 @@ const inventoryItems: InventoryItem[] = [
   },
   {
     id: 9,
-    name: "Wild Berries & Cream",
-    category: "Sweet & Savory",
+    name: "Tomatoes",
+    category: "Produce",
     currentStock: 25,
     minRequired: 15,
     optimalStock: 30,
@@ -439,8 +439,8 @@ const inventoryItems: InventoryItem[] = [
   },
   {
     id: 10,
-    name: "Fattoush Salad",
-    category: "Sides",
+    name: "Cooking Oil",
+    category: "Dry Goods",
     currentStock: 150,
     minRequired: 100,
     optimalStock: 200,
@@ -448,6 +448,18 @@ const inventoryItems: InventoryItem[] = [
     supplierLeadTime: 4,
     lastOrdered: "2023-05-05",
     price: 1.99
+  },
+  {
+    id: 11,
+    name: "Napkins",
+    category: "Supplies",
+    currentStock: 200,
+    minRequired: 150,
+    optimalStock: 300,
+    usageRate: 25,
+    supplierLeadTime: 1,
+    lastOrdered: "2023-05-19",
+    price: 0.99
   }
 ];
 
